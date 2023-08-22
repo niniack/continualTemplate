@@ -2,7 +2,7 @@
 	"name": "Existing Dockerfile",
 	"build": {
 		"context": "..",
-		"dockerfile": "../Dockerfile"
+		"dockerfile": "Dockerfile"
 	},
 	"runArgs": [
 		"--gpus",
@@ -11,7 +11,7 @@
 		"--ulimit",
 		"memlock=-1",
 		"--ulimit",
-		"stack=67108864",
+		"stack=67108864"
 	],
 	"mounts": [
 		"source=/mnt,target=/mnt,type=bind",
