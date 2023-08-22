@@ -1,0 +1,13 @@
+name: local_env
+channels:
+dependencies:
+   - conda-forge::transformers
+   - conda-forge::timm
+   - conda-forge::torchinfo
+   - conda-forge::plotly
+   - conda-forge::python-kaleido
+   - pytorch::captum
+   - anaconda::pytest
+   - pip:
+     - avalanche-lib
+     - natsort

@@ -1,0 +1,34 @@
+{
+	"name": "Existing Dockerfile",
+	"build": {
+		"context": "..",
+		"dockerfile": "../Dockerfile"
+	},
+	"runArgs": [
+		"--gpus",
+		"all",
+		"--ipc=host",
+		"--ulimit",
+		"memlock=-1",
+		"--ulimit",
+		"stack=67108864",
+	],
+	"mounts": [
+		"source=/mnt,target=/mnt,type=bind",
+		"source=${localEnv:MOUNT_DATASETS_PATH},target=/root/datasets,type=bind"
+	],
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"python.pythonPath": "/opt/conda/bin/python"
+			},
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"njpwerner.autodocstring",
+				"ms-python.black-formatter"
+			]
+		}
+	},
+	"postCreateCommand": "pip install git+https://github.com/niniack/continualUtils.git",
+}
