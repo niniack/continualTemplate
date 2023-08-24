@@ -29,6 +29,5 @@
 				"ms-python.black-formatter"
 			]
 		}
-	},
-	"postCreateCommand": "pip install git+https://github.com/niniack/continualUtils.git",
+	}
 }
