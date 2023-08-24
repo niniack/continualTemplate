@@ -1,1 +1,1 @@
-sudo chown -R $USER .
+sudo chown -R $USER ../
