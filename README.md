@@ -28,7 +28,7 @@ Execute `./own.sh` to quickly return ownership to your user (instead of root, th
 
 ### Training
 
-Training is configured by a `.yml` file specifiying the model save path, dataset root path, directory of implementations, and WandB settings.
+Training is configured by a `.yml` file specifiying the model save path, dataset root path, directory of implementations, and WandB settings. `.gitignore` has already been configured to ignore `training.yml`
 
 ```
 save_path: "./model_saves/"   # where to save models, will be mounted
