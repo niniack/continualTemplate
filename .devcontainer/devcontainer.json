@@ -15,7 +15,8 @@
 	],
 	"mounts": [
 		"source=/mnt,target=/mnt,type=bind",
-		"source=${localEnv:MOUNT_DATASETS_PATH},target=/root/datasets,type=bind"
+		"source=${localEnv:MOUNT_DATASETS_PATH},target=/root/datasets,type=bind",
+		"source=${localEnv:HOME}/git/continualTrain,target=/workspaces/continualTrain,type=bind,readonly"
 	],
 	"customizations": {
 		"vscode": {

@@ -11,4 +11,3 @@ dependencies:
    - pip:
      - avalanche-lib
      - natsort
-     - -e git+https://github.com/niniack/continualUtils.git

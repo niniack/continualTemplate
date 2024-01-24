@@ -5,6 +5,7 @@ from avalanche.training import EWC
 from avalanche.benchmarks.classic import SplitMNIST
 from avalanche.models import MTSimpleMLP
 
+# Keep marker unchanged
 hookimpl = pluggy.HookimplMarker("continualTrain")
 
 
@@ -38,6 +39,8 @@ def get_strategy(model, optimizer, criterion, evaluator, plugins, device):
         plugins=plugins,
         device=device,
         ewc_lambda=10,
+        train_mb_size=1024,
+        eval_mb_size=1024,
     )
 
 

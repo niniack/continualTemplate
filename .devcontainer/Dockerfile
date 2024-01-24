@@ -1,17 +1,10 @@
 # Start from the NVIDIA PyTorch image
-FROM nvcr.io/nvidia/pytorch:22.12-py3
-
-# Install Mambaforge
-RUN apt-get update && apt-get install -y wget && \
-    wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh" && \
-    bash Mambaforge-$(uname)-$(uname -m).sh -b -p /opt/conda && \
-    rm Mambaforge-$(uname)-$(uname -m).sh && \
-    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    /opt/conda/bin/conda clean -tipy
+# FROM unifyai/ivy:latest-gpu
+FROM nvcr.io/nvidia/pytorch:23.10-py3
 
 # Update libstdc++.so.6 for this image
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
     DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:ubuntu-toolchain-r/test -y && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y libstdc++6
@@ -21,24 +14,20 @@ RUN wget "https://github.com/aristocratos/btop/releases/latest/download/btop-x86
     tar xvjf btop-x86_64-linux-musl.tbz -C /usr/local/bin && \
     rm btop-x86_64-linux-musl.tbz
 
-# Make sure the environment is activated
-ENV PATH /opt/conda/bin:$PATH
+# Install necessary tools and libraries to parse toml and manage Python venv
+RUN apt-get update && apt-get install -y python3-venv
 
-# Activate base environment when starting bash
-RUN echo "conda activate base" >> ~/.bashrc
+# Set work directory
+WORKDIR /workspaces
 
-# Prioritize Conda libraries over system ones
-ENV LD_LIBRARY_PATH /opt/conda/lib:$LD_LIBRARY_PATH
+RUN pip install toml
 
-# Copy environment file from avalanche into the Docker image
-RUN wget -O avalanche-environment.yml https://raw.githubusercontent.com/ContinualAI/avalanche/master/environment.yml
+# Copy over the training.toml
+COPY training.toml .
 
-# Copy local environment file into the Docker image
-COPY local-environment.yml .
+COPY scripts/parse_toml.py /parse_toml.py
 
-# Install conda-merge in the base environment
-RUN mamba install -y -c conda-forge conda-merge
+RUN python3 /parse_toml.py
 
-# Merge the environment files and create the environment
-RUN conda-merge avalanche-environment.yml local-environment.yml > merged.yml && \
-    mamba env update --name base --file merged.yml
+RUN python3 -m venv venv --system-site-packages && \
+    venv/bin/pip install -r requirements.txt
