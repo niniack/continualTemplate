@@ -20,14 +20,16 @@ RUN apt-get update && apt-get install -y python3-venv
 # Set work directory
 WORKDIR /workspaces
 
+# Install toml
 RUN pip install toml
 
-# Copy over the training.toml
+# Copy over the training.toml and parse_toml.py script
 COPY training.toml .
+COPY scripts/parse_toml.py /workspaces/parse_toml.py
 
-COPY scripts/parse_toml.py /parse_toml.py
+# Parse the toml file
+RUN python3 /workspaces/parse_toml.py
 
-RUN python3 /parse_toml.py
-
+# Create and setup Python virtual environment
 RUN python3 -m venv venv --system-site-packages && \
-    venv/bin/pip install -r requirements.txt
+    /workspaces/venv/bin/pip install -r requirements.txt

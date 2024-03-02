@@ -12,12 +12,13 @@
 		"memlock=-1",
 		"--ulimit",
 		"stack=67108864"
-	],
+	],	
 	"mounts": [
 		"source=/mnt,target=/mnt,type=bind",
-		"source=${localEnv:MOUNT_DATASETS_PATH},target=/root/datasets,type=bind",
-		"source=${localEnv:HOME}/git/continualTrain,target=/workspaces/continualTrain,type=bind,readonly"
+		"source=${localEnv:HOME}/datasets/,target=/root/datasets,type=bind",
+		"source=${localEnv:HOME}/git/continualTrain/,target=/workspaces/continualTrain,type=bind,readonly"
 	],
+	"postAttachCommand" : "source /workspaces/venv/bin/activate",
 	"customizations": {
 		"vscode": {
 			"settings": {
@@ -25,9 +26,9 @@
 			},
 			"extensions": [
 				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"njpwerner.autodocstring",
-				"ms-python.black-formatter"
+				"ms-toolsai.jupyter",
+				"charliermarsh.ruff",
+				"njpwerner.autodocstring"
 			]
 		}
 	}
